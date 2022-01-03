@@ -1,7 +1,7 @@
 ﻿using Bank.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Application.Interfaces
+namespace Bank.Persistence.Interfaces
 {
     public interface IBankContext
     {

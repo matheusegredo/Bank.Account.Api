@@ -1,4 +1,4 @@
-﻿using Bank.Application.Interfaces;
+﻿using Bank.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

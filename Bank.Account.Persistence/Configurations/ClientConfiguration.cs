@@ -37,7 +37,7 @@ namespace Bank.Persistence.Configurations
 
             builder.HasOne(p => p.Account)
                 .WithOne(p => p.Client)
-                .HasForeignKey<Account>(p => p.ClientId);
+                .HasForeignKey<Account>(p => p.ClientId);                
         }
     }
 }

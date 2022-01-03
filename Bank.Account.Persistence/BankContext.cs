@@ -1,6 +1,6 @@
-﻿using Bank.Application.Interfaces;
-using Bank.Data;
+﻿using Bank.Data;
 using Bank.Data.Entities;
+using Bank.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Persistence
