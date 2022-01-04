@@ -13,8 +13,6 @@
 
         public string AccountNumber { get; set; }
 
-        public string Password { get; set; }
-
         public Client Client { get; set; }
 
         public ICollection<AccountMovimentation> Movimentations { get; set; }

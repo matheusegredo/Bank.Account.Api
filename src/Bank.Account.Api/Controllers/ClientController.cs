@@ -17,9 +17,6 @@ namespace Bank.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostClientCommand command) 
-        {
-            return await ResponseHandler(() => _mediator.Send(command));
-        }
+        public async Task<IActionResult> Post([FromBody] PostClientCommand command) => await ResponseHandler(() => _mediator.Send(command));        
     }
 }

@@ -11,5 +11,7 @@
         public string Email { get; set; }
 
         public Account? Account { get; set; }
+
+        public string GetFullName => $"{FirstName} {LastName}";
     }
 }

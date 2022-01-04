@@ -1,4 +1,5 @@
 ﻿using Bank.Api.Infrastructure.Base;
+using Bank.Application.Commands.Accounts.Post;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,7 @@ namespace Bank.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get() 
-        {
-            return Ok();
-        }
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] PostAccountCommand command) => await ResponseHandler(() => _mediator.Send(command));
     }
 }

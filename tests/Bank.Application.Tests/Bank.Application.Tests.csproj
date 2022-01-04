@@ -23,9 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bank.Account.Application\Bank.Application.csproj" />
-    <ProjectReference Include="..\Bank.Account.Persistence\Bank.Persistence.csproj" />
-    <ProjectReference Include="..\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
+    <ProjectReference Include="..\..\src\Bank.Account.Application\Bank.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Bank.Data;
 using Bank.Data.Entities;
+using Bank.Persistence.Configurations;
 using Bank.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,7 @@ namespace Bank.Persistence
 {
     public class BankContext : DbContext, IBankContext
     {
-        public BankContext(DbContextOptions options) : base(options) 
+        public BankContext(DbContextOptions<BankContext> options) : base(options) 
         {
             Database.EnsureCreated();
         }
@@ -22,6 +23,8 @@ namespace Bank.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Auditable>();
+
             modelBuilder.Entity<Account>()
                 .HasKey(p => p.AccountId);
 
@@ -33,6 +36,8 @@ namespace Bank.Persistence
 
             modelBuilder.Entity<Client>()
                 .HasKey(p => p.ClientId);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountConfiguration).Assembly);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

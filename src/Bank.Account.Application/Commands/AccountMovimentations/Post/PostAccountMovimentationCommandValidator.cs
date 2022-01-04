@@ -4,7 +4,11 @@
     {
         public PostAccountMovimentationCommandValidator()
         {
-
+            RuleFor(p => p.AccountId)
+                .NotEmpty();
+            
+            RuleFor(p => p.Type)
+                .IsInEnum();
         }
     }
 }
