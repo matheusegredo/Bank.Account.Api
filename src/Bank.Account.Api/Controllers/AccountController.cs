@@ -1,24 +1,24 @@
-﻿using Bank.Persistence.Interfaces;
+﻿using Bank.Api.Infrastructure.Base;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Api.Controllers
 {
     [ApiController]
     [Route("api/account")]
-    public class AccountController : Controller
+    public class AccountController : BaseApiController
     {
-        private readonly IBankContext _bankContext;
+        private readonly IMediator _mediator;
 
-        public AccountController(IBankContext bankContext)
+        public AccountController(IMediator mediator)
         {
-            _bankContext = bankContext;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get() 
         {
-            return Ok(await _bankContext.AccountBalances.ToListAsync());
+            return Ok();
         }
     }
 }
