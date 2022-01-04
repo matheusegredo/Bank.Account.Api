@@ -16,9 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Accounts\" />
-    <Folder Include="Commands\AccountBalances\" />
-    <Folder Include="Commands\AccountMovimentations\" />
+    <Folder Include="Commands\AccountMovimentations\Notifications\" />
     <Folder Include="Queries\AccountBalances\" />
     <Folder Include="Queries\AccountMovimentations\" />
     <Folder Include="Queries\Accounts\" />
