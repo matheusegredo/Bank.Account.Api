@@ -23,8 +23,4 @@
     <ProjectReference Include="..\..\Bank.Account.Persistence\Bank.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

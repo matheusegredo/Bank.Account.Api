@@ -7,7 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bank.Account.Data\Bank.Data.csproj" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.6" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Accounts\" />
+    <Folder Include="Commands\AccountBalances\" />
+    <Folder Include="Commands\AccountMovimentations\" />
+    <Folder Include="Queries\AccountBalances\" />
+    <Folder Include="Queries\AccountMovimentations\" />
+    <Folder Include="Queries\Accounts\" />
+    <Folder Include="Queries\Clients\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bank.Account.Persistence\Bank.Persistence.csproj" />
+    <ProjectReference Include="..\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

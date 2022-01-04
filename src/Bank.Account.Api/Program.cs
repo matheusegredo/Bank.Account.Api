@@ -1,9 +1,11 @@
+using Bank.Application;
 using Bank.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+builder.Services.AddApplicationDependecies();
 builder.Services.AddPersistenceDependencies(configuration);
 
 builder.Services.AddControllers();

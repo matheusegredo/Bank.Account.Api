@@ -1,5 +1,6 @@
 ﻿using Bank.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Bank.Persistence.Interfaces
 {
@@ -12,5 +13,11 @@ namespace Bank.Persistence.Interfaces
         DbSet<AccountMovimentation> AccountMovimentations { get; set; }
 
         DbSet<Client> Clients { get; set; }
+
+        IModel Model { get; }
+
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
