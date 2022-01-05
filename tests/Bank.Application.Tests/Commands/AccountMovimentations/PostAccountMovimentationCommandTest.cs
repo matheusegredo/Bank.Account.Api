@@ -35,6 +35,7 @@ namespace Bank.Application.Tests.Commands.AccountMovimentations
         [Theory(DisplayName = "Sending valid contract should create account movimentation")]
         [InlineData(MovimentationType.Yield)]
         [InlineData(MovimentationType.Rescue)]
+        [InlineData(MovimentationType.Payment)]
         [InlineData(MovimentationType.Deposit)]
         public async Task SendingValidContract_ShouldCreateClient(MovimentationType type)
         {
@@ -47,6 +48,17 @@ namespace Bank.Application.Tests.Commands.AccountMovimentations
 
             Assert.Contains(_bankContext.AccountMovimentations, accountMovimentation => 
                 accountMovimentation.AccountId == command.AccountId && accountMovimentation.Value == command.Value && accountMovimentation.Type == command.Type);
+        }
+
+        [Theory(DisplayName = "Sending valid contract without balance should throws exception")]
+        [InlineData(MovimentationType.Payment)]
+        [InlineData(MovimentationType.Rescue)]        
+        public async Task SendingValidContractWithoutBalance_ShouldThrowsException(MovimentationType type)
+        {
+            var command = new PostAccountMovimentationCommand { AccountId = 1, Value = -101, Type = type };
+
+            var exception = await Assert.ThrowsAsync<InvalidRequestException>(() => _handler.Handle(command, default));
+            Assert.Equal("Insufficient balance to carry out the transaction", exception.Message);
         }
 
         [Fact(DisplayName = "If account not exist should throws exception")]
@@ -104,7 +116,8 @@ namespace Bank.Application.Tests.Commands.AccountMovimentations
             {
                 AccountId = 1,
                 ClientId = 1,
-                AccountNumber = string.Empty
+                AccountNumber = string.Empty,
+                AccountBalance = new AccountBalance { Value = 100 }
             };
 
             _bankContext.Accounts.Add(account);

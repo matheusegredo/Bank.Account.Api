@@ -7,13 +7,13 @@ namespace Bank.Application.Helpers
 {
     public static class DbHelper
     {
-		public async static Task<int> GetValueByKey<TEntity>(this IBankContext contexto, int id) where TEntity : class
+		public async static Task<int> GetValueByKey<TEntity>(this IBankContext contexto, int id, CancellationToken cancellationToken = default) where TEntity : class
 		{
 			var primaryKey = contexto.Model.FindEntityType(typeof(TEntity)).FindPrimaryKey().Properties.Single().Name;
 
 			var registro = await contexto.Set<TEntity>().Where(p => Equals(EF.Property<int>(p, primaryKey), id))
 				.Select(p => EF.Property<int>(p, primaryKey))
-				.FirstOrDefaultReadingUncomittedAsync();
+				.FirstOrDefaultReadingUncomittedAsync(cancellationToken);
 
 			return registro;
 		}

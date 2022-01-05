@@ -16,12 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\AccountMovimentations\" />
-    <Folder Include="Queries\Accounts\" />
-    <Folder Include="Queries\Clients\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Bank.Account.Persistence\Bank.Persistence.csproj" />
     <ProjectReference Include="..\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
     <ProjectReference Include="..\Bank.Infrastructure.Cache\Bank.Infrastructure.Cache.csproj" />
