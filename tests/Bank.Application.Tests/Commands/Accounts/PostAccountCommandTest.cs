@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Bank.Application.Tests.Commands.Clients
 {
-    [Trait("Category", "Client")]
+    [Trait("Category", "Account")]
     public class PostAccountCommandTest
     {
         private readonly IBankContext _bankContext;
@@ -27,8 +27,8 @@ namespace Bank.Application.Tests.Commands.Clients
             SetUp();
         }
 
-        [Fact(DisplayName = "Sending valid contract should create client")]
-        public async Task SendingValidContract_ShouldCreateClient()
+        [Fact(DisplayName = "Sending valid contract should create account")]
+        public async Task SendingValidContract_ShouldCreateAccount()
         {
             var command = new PostAccountCommand { ClientId = 2, AccountNumber = "00001" };
 

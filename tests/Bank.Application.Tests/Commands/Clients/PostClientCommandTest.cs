@@ -6,7 +6,6 @@ using Bank.CrossCutting.Exceptions;
 using Bank.Data.Entities;
 using Bank.Persistence.Interfaces;
 using FluentValidation.TestHelper;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
