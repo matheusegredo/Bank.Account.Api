@@ -4,7 +4,8 @@
     {
         public GetAccountBalanceQueryValidator()
         {
-
+            RuleFor(p => p.AccountId)
+                .NotEmpty();
         }
     }
 }
