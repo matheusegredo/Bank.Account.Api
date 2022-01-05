@@ -1,6 +1,8 @@
 ﻿global using Bank.Persistence.Interfaces;
+using Bank.Application.Commands.AccountBalances.Notifications;
 using Bank.Application.Helpers;
 using Bank.CrossCutting.Exceptions;
+using Bank.Data;
 using Bank.Data.Entities;
 
 namespace Bank.Application.Commands.AccountMovimentations.Post
@@ -24,6 +26,20 @@ namespace Bank.Application.Commands.AccountMovimentations.Post
 
             if (accountId is default(int))
                 throw new NotFoundException("Account not found.");
+
+            if (command.Type == MovimentationType.Payment)
+                throw new NotImplementedException();
+            else 
+            {
+                var accountMovimentation = _mapper.Map<AccountMovimentation>(command);
+
+                _bankContext.AccountMovimentations.Add(accountMovimentation);
+                await _bankContext.SaveChangesAsync();
+
+                await _mediator.Publish(new PutAccountBalanceNotification(accountId, accountMovimentation.Value), cancellationToken);
+            }
+
+            return new PostAccountMovimentationCommandResponse("Account Movimentation inserted succefully!");
         }
     }
 }

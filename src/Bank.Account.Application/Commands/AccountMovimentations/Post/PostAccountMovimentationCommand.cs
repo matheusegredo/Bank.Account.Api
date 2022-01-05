@@ -9,5 +9,7 @@ namespace Bank.Application.Commands.AccountMovimentations.Post
         public decimal Value { get; set; }
 
         public MovimentationType Type { get; set; }
+
+        public bool ValueShouldBePositive => Type == MovimentationType.Deposit || Type == MovimentationType.Yield;
     }
 }
