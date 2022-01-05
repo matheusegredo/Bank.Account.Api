@@ -4,6 +4,7 @@ using Bank.Application.Helpers;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data;
 using Bank.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Commands.AccountMovimentations.Post
 {
@@ -27,19 +28,25 @@ namespace Bank.Application.Commands.AccountMovimentations.Post
             if (accountId is default(int))
                 throw new NotFoundException("Account not found.");
 
-            if (command.Type == MovimentationType.Payment)
-                throw new NotImplementedException();
-            else 
-            {
-                var accountMovimentation = _mapper.Map<AccountMovimentation>(command);
+            var balance = await _bankContext.AccountBalances
+                .Where(accountBalance => accountBalance.AccountId == command.AccountId)
+                .Select(accountBalance => new AccountBalance { Value = accountBalance.Value })
+                .FirstOrDefaultAsync(cancellationToken);
 
-                _bankContext.AccountMovimentations.Add(accountMovimentation);
-                await _bankContext.SaveChangesAsync();
+            if (balance is null)
+                balance = new AccountBalance { Value = 0 };
 
-                await _mediator.Publish(new PutAccountBalanceNotification(accountId, accountMovimentation.Value), cancellationToken);
-            }
+            if (balance.Value + command.Value < 0)
+                throw new InvalidRequestException("Insufficient balance to carry out the transaction");
+            
+            var accountMovimentation = _mapper.Map<AccountMovimentation>(command);
 
-            return new PostAccountMovimentationCommandResponse("Account Movimentation inserted succefully!");
+            _bankContext.AccountMovimentations.Add(accountMovimentation);
+            await _bankContext.SaveChangesAsync();
+
+            await _mediator.Publish(new PutAccountBalanceNotification(accountId, accountMovimentation.Value), cancellationToken);            
+
+            return new PostAccountMovimentationCommandResponse("Account movimentation inserted succefully!");
         }
     }
 }
