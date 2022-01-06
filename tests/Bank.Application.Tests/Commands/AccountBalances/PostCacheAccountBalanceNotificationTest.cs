@@ -35,7 +35,7 @@ namespace Bank.Application.Tests.Commands.AccountBalances
             await _handler.Handle(notification, default);
 
             Assert.True(_accountBalanceCacheService.TryGet(notification.CacheKey, out AccountBalanceCacheModel accountBalance));
-            Assert.Equal(accountBalance.Value, notification.Value);
+            Assert.Equal(accountBalance.Value, 999);
         }
     }
 }
