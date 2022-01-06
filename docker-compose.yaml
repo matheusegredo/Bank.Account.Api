@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  bank.api-compose:
+    image: bank.api
+    build:
+      context: .
+    ports:
+      - "4200:80"
+    networks:
+      - bank-api-network  
+  redis-compose:
+    image: redis:latest    
+    ports:
+      - "6379:6379"
+    networks:
+      - bank-api-network  
+  mysql-bank-context-compose:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: warren@challenge
+    ports:
+      - "3306:3306"
+    networks:
+      - bank-api-network
+
+networks: 
+    bank-api-network:
+        driver: bridge
