@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Bank.Infrastructure.Authentication\Bank.Infrastructure.Authentication.csproj" />
     <ProjectReference Include="..\Bank.Account.Persistence\Bank.Persistence.csproj" />
     <ProjectReference Include="..\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
+    <ProjectReference Include="..\Bank.Infrastructure.Authentication\Bank.Infrastructure.Authentication.csproj" />
     <ProjectReference Include="..\Bank.Infrastructure.Cache\Bank.Infrastructure.Cache.csproj" />
   </ItemGroup>
 

@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Application.Tests", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Infrastructure.Cache", "src\Bank.Infrastructure.Cache\Bank.Infrastructure.Cache.csproj", "{77CB4C64-4777-4F0E-A873-2D980DD6F25B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Infrastructure.Authentication", "Bank.Infrastructure.Authentication\Bank.Infrastructure.Authentication.csproj", "{7122EE94-FDE6-44D2-B3A1-DCB709C3DE29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Infrastructure.Authentication", "src\Bank.Infrastructure.Authentication\Bank.Infrastructure.Authentication.csproj", "{7122EE94-FDE6-44D2-B3A1-DCB709C3DE29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

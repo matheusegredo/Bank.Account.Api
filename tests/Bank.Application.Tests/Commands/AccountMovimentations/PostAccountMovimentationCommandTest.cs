@@ -6,6 +6,7 @@ using Bank.Application.Tests.Moq;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data;
 using Bank.Data.Entities;
+using Bank.Infrastructure.Authentication.Interfaces;
 using Bank.Persistence.Interfaces;
 using FluentValidation.TestHelper;
 using MediatR;
@@ -26,8 +27,9 @@ namespace Bank.Application.Tests.Commands.AccountMovimentations
             var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new AccountMovimentationProfile())).CreateMapper();
             _bankContext = BankContextTestFactory.CreateSqlLiteContext();
             var mediator = new Mock<IMediator>().Object;
+            var authentication = new Mock<IAuthenticationHelper>().Object;
 
-            _handler = new PostAccountMovimentationCommandHandler(mapper, mediator, _bankContext);
+            _handler = new PostAccountMovimentationCommandHandler(mapper, mediator, _bankContext, authentication);
 
             SetUp();
         }

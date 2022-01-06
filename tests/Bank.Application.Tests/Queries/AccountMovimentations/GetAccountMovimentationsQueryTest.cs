@@ -4,6 +4,7 @@ using Bank.Application.Tests.Moq;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data;
 using Bank.Data.Entities;
+using Bank.Infrastructure.Authentication.Interfaces;
 using Bank.Persistence.Interfaces;
 using FluentValidation.TestHelper;
 using MediatR;
@@ -31,8 +32,9 @@ namespace Bank.Application.Tests.Commands.AccountBalances
                 p.Send(It.IsAny<GetAccountBalanceQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new GetAccountBalanceQueryResponse { AccountId = 1, Value = 20 });
 
+            var authentication = new Mock<IAuthenticationHelper>().Object;
 
-            _handler = new GetAccountMovimentationsQueryHandler(mediator.Object, _bankContext);
+            _handler = new GetAccountMovimentationsQueryHandler(mediator.Object, _bankContext, authentication);
 
             SetUp();
         }

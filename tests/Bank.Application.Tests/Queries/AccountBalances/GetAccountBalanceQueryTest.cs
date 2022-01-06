@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Bank.Application.Commands.AccountBalances.Notifications;
-using Bank.Application.Commands.AccountBalances.Notifications.Post;
 using Bank.Application.Profiles;
 using Bank.Application.Queries.AccountBalances;
 using Bank.Application.Tests.Moq;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data.Entities;
+using Bank.Infrastructure.Authentication.Interfaces;
 using Bank.Infrastructure.Cache.Interfaces;
 using Bank.Infrastructure.Cache.Models.AccountBalances;
 using Bank.Persistence.Interfaces;
@@ -16,7 +15,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -37,10 +35,11 @@ namespace Bank.Application.Tests.Commands.AccountBalances
 
             var cacheOptions = Options.Create(new MemoryDistributedCacheOptions());
             var cache = new MemoryDistributedCache(cacheOptions);
+            var authentication = new Mock<IAuthenticationHelper>().Object;
 
             _accountBalanceCacheService = new AccountBalanceCacheService(cache);
 
-            _handler = new GetAccountBalanceQueryHandler(mapper, mediator, _bankContext, _accountBalanceCacheService);
+            _handler = new GetAccountBalanceQueryHandler(mapper, mediator, _bankContext, _accountBalanceCacheService, authentication);
 
             SetUp();
         }
@@ -68,7 +67,7 @@ namespace Bank.Application.Tests.Commands.AccountBalances
         {
             var query = new GetAccountBalanceQuery(999);
             var exception = await Assert.ThrowsAsync<NotFoundException>(() =>  _handler.Handle(query, default));
-            Assert.Equal($"Account balance not found.", exception.Message);
+            Assert.Equal($"Account not found.", exception.Message);
         }
 
         [Fact(DisplayName = "If send default account id should throws exception")]
@@ -83,16 +82,29 @@ namespace Bank.Application.Tests.Commands.AccountBalances
 
         private void SetUp()
         {
-            var accountBalance = new AccountBalance
+            var accountWithBalance = new Account
             {
-                AccountBalanceId = 1,
                 AccountId = 1,
-                Value = 10,
-                LastTimeChanged = DateTime.UtcNow
-
+                AccountNumber = "0001",
+                ClientId = 1,
+                AccountBalance = new AccountBalance 
+                {
+                    AccountBalanceId = 1,
+                    AccountId = 1,
+                    Value = 10,
+                    LastTimeChanged = DateTime.UtcNow
+                }
             };
 
-            _bankContext.AccountBalances.Add(accountBalance);
+            var account = new Account
+            {
+                AccountId = 2,
+                ClientId = 2,
+                AccountNumber = "0002"                
+            };
+
+            _bankContext.Accounts.Add(accountWithBalance);
+            _bankContext.Accounts.Add(account);
             _bankContext.SaveChangesAsync().GetAwaiter().GetResult();
 
             var model = new AccountBalanceCacheModel { AccountId = 2, Value = 25 };

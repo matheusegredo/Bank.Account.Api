@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Bank.Account.Persistence\Bank.Persistence.csproj" />
-    <ProjectReference Include="..\src\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
-    <ProjectReference Include="..\src\Bank.Infrastructure.Cache\Bank.Infrastructure.Cache.csproj" />
+    <ProjectReference Include="..\Bank.Account.Persistence\Bank.Persistence.csproj" />
+    <ProjectReference Include="..\Bank.CrossCutting.Exceptions\Bank.CrossCutting.Exceptions.csproj" />
+    <ProjectReference Include="..\Bank.Infrastructure.Cache\Bank.Infrastructure.Cache.csproj" />
   </ItemGroup>
 
 </Project>
