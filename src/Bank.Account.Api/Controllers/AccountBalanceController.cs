@@ -8,7 +8,7 @@ namespace Bank.Api.Controllers
 {
     [ApiController]
     [CachedTokenAuthorize]
-    [Route("api/account")]
+    [Route("api/account/balance")]
     public class AccountBalanceController : BaseApiController
     {
         private readonly IMediator _mediator;
