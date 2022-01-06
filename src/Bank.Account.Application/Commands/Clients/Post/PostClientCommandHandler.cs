@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Bank.Application.Helpers;
+﻿using Bank.Application.Helpers;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data.Entities;
-using Bank.Persistence.Interfaces;
 
 namespace Bank.Application.Commands.Clients.Post
 {

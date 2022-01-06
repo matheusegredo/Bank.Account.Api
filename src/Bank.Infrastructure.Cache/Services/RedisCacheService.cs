@@ -35,7 +35,7 @@ namespace Bank.Infrastructure.Cache.Models
         public virtual async Task<TEntity> Set(string key, TEntity entity, CancellationToken cancellationToken = default) 
         {
             var options = new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(MinutesToExpire) };
-            await _distributedCache.SetAsync(ResolveKey(key), Encode(entity), cancellationToken);
+            await _distributedCache.SetAsync(ResolveKey(key), Encode(entity), options, cancellationToken);
             return entity;
         }
 

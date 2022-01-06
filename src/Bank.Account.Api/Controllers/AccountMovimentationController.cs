@@ -1,4 +1,5 @@
-﻿using Bank.Api.Infrastructure.Base;
+﻿using Bank.Api.Infrastructure.Authentication;
+using Bank.Api.Infrastructure.Base;
 using Bank.Application.Commands.AccountMovimentations.Post;
 using Bank.Application.Queries.AccountMovimentations.Get;
 using MediatR;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bank.Api.Controllers
 {
     [ApiController]
+    [CachedTokenAuthorize]
     [Route("api/account/movimentation")]
     public class AccountMovimentationController : BaseApiController
     {

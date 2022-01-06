@@ -1,5 +1,5 @@
-﻿using Bank.Api.Infrastructure.Base;
-using Bank.Application.Commands.Accounts.Post;
+﻿using Bank.Api.Infrastructure.Authentication;
+using Bank.Api.Infrastructure.Base;
 using Bank.Application.Queries.AccountBalances;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bank.Api.Controllers
 {
     [ApiController]
+    [CachedTokenAuthorize]
     [Route("api/account")]
     public class AccountBalanceController : BaseApiController
     {

@@ -2,6 +2,7 @@
 using Bank.Application.Queries.AccountBalances;
 using Bank.CrossCutting.Exceptions;
 using Bank.Data.Entities;
+using Bank.Infrastructure.Authentication.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Queries.AccountMovimentations.Get
@@ -10,22 +11,25 @@ namespace Bank.Application.Queries.AccountMovimentations.Get
     {   
         private readonly IMediator _mediator;
         private readonly IBankContext _bankContext;
+        private readonly IAuthenticationHelper _authenticationHelper;
 
-        public GetAccountMovimentationsQueryHandler(IMediator mediator, IBankContext bankContext)
-        {     
+        public GetAccountMovimentationsQueryHandler(IMediator mediator, IBankContext bankContext, IAuthenticationHelper authenticationHelper)
+        {
             _mediator = mediator;
             _bankContext = bankContext;
+            _authenticationHelper = authenticationHelper;
         }
 
         public async Task<GetAccountMovimentationsQueryResponse> Handle(GetAccountMovimentationsQuery query, CancellationToken cancellationToken)
         {
             var account = await _bankContext.Accounts
-                .Where(account => account.AccountId == query.AccountId)
-                .Select(account => new Account { AccountNumber = account.AccountNumber })
-                .FirstOrDefaultReadingUncomittedAsync(cancellationToken);
+               .Where(account => account.AccountId == query.AccountId)
+               .FirstOrDefaultReadingUncomittedAsync(cancellationToken);
 
             if (account is null)
                 throw new NotFoundException("Account not found.");
+
+            _authenticationHelper.ValidateTokenByAccount(account, cancellationToken);
 
             var accountBalance = await _mediator.Send(new GetAccountBalanceQuery(query.AccountId), cancellationToken);
 

@@ -20,7 +20,7 @@ namespace Bank.Persistence.Configurations
                 .IsRequired()
                 .HasColumnType("varchar(8)")
                 .HasMaxLength(8);
-
+            
             builder.Property(p => p.CreatedOn)
                 .IsRequired()
                 .HasColumnType("datetime");

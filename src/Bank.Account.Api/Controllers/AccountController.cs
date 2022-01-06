@@ -1,4 +1,5 @@
 ﻿using Bank.Api.Infrastructure.Base;
+using Bank.Application.Commands.Accounts.Authentication;
 using Bank.Application.Commands.Accounts.Post;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,5 +19,8 @@ namespace Bank.Api.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PostAccountCommand command) => await ResponseHandler(() => _mediator.Send(command));
+
+        [HttpPost("authentication")]
+        public async Task<IActionResult> Authentication([FromBody] AuthenticationAccountCommand command) => await ResponseHandler(() => _mediator.Send(command));
     }
 }

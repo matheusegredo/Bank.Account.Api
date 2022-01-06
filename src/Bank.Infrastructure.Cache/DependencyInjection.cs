@@ -1,4 +1,5 @@
 ﻿using Bank.Infrastructure.Cache.Interfaces;
+using Bank.Infrastructure.Cache.Models.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ namespace Bank.Infrastructure.Cache
             });
 
             services.AddScoped<IAccountBalanceCacheService, AccountBalanceCacheService>();
+            services.AddScoped<IAuthenticationJwtCacheService, AuthenticationJwtCacheService>();
         }
     }
 }

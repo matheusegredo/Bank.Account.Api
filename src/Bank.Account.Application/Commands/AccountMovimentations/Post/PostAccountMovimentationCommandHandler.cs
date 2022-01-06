@@ -2,8 +2,8 @@
 using Bank.Application.Commands.AccountBalances.Notifications;
 using Bank.Application.Helpers;
 using Bank.CrossCutting.Exceptions;
-using Bank.Data;
 using Bank.Data.Entities;
+using Bank.Infrastructure.Authentication.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Application.Commands.AccountMovimentations.Post
@@ -13,20 +13,26 @@ namespace Bank.Application.Commands.AccountMovimentations.Post
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly IBankContext _bankContext;
+        private readonly IAuthenticationHelper _authenticationHelper;
 
-        public PostAccountMovimentationCommandHandler(IMapper mapper, IMediator mediator, IBankContext bankContext)
+        public PostAccountMovimentationCommandHandler(IMapper mapper, IMediator mediator, IBankContext bankContext, IAuthenticationHelper authenticationHelper)
         {
             _mapper = mapper;
             _mediator = mediator;
             _bankContext = bankContext;
+            _authenticationHelper = authenticationHelper;
         }
 
         public async Task<PostAccountMovimentationCommandResponse> Handle(PostAccountMovimentationCommand command, CancellationToken cancellationToken)
         {
-            var accountId = await _bankContext.GetValueByKey<Account>(command.AccountId);
+            var account = await _bankContext.Accounts
+                .Where(account => account.AccountId == command.AccountId)
+                .FirstOrDefaultReadingUncomittedAsync(cancellationToken);
 
-            if (accountId is default(int))
+            if (account is null)
                 throw new NotFoundException("Account not found.");
+
+            _authenticationHelper.ValidateTokenByAccount(account, cancellationToken);
 
             var balance = await _bankContext.AccountBalances
                 .Where(accountBalance => accountBalance.AccountId == command.AccountId)
@@ -44,7 +50,7 @@ namespace Bank.Application.Commands.AccountMovimentations.Post
             _bankContext.AccountMovimentations.Add(accountMovimentation);
             await _bankContext.SaveChangesAsync();
 
-            await _mediator.Publish(new PutAccountBalanceNotification(accountId, accountMovimentation.Value), cancellationToken);            
+            await _mediator.Publish(new PutAccountBalanceNotification(account.AccountId, accountMovimentation.Value), cancellationToken);            
 
             return new PostAccountMovimentationCommandResponse("Account movimentation inserted succefully!");
         }
